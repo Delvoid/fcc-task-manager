@@ -20,14 +20,32 @@ const createTask = async (req, res) => {
   }
 }
 
-const getTask = (req, res) => {
-  res.json({ id: req.params.id })
+const getTask = async (req, res) => {
+  try {
+    const { id: taskId } = req.params
+    const task = await Task.findById(taskId)
+    if (!task) return res.status(404).json({ msg: `no task with id : ${taskId}` })
+
+    res.status(200).json({ task })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ msg: error })
+  }
 }
 const updateTask = (req, res) => {
   res.json({ id: req.params.id })
 }
-const deleteTask = (req, res) => {
-  res.json({ id: req.params.id })
+const deleteTask = async (req, res) => {
+  try {
+    const { id: taskId } = req.params
+    const task = await Task.findByIdAndDelete(taskId)
+    if (!task) return res.status(404).json({ msg: `no task with id : ${taskId}` })
+
+    res.status(200).json({ task })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ msg: error })
+  }
 }
 
 module.exports = {
