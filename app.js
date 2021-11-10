@@ -1,5 +1,5 @@
 const express = require('express')
-
+const errorHandler = require('./middleware/error-handler')
 const notFound = require('./middleware/notFound')
 
 const connectDb = require('./db/connectDb')
@@ -17,6 +17,7 @@ app.use(express.json())
 app.use('/api/v1/tasks', tasks)
 
 app.use(notFound)
+app.use(errorHandler)
 
 const start = async () => {
   try {
